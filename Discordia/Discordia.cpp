@@ -22,7 +22,7 @@ using namespace std;
 
 Utils utils;
 
-int main()
+int main(int argc, char* argv[])
 {
 
 	//utils.HideConsole();

