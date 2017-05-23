@@ -8,6 +8,7 @@ Discordia it's Universal Trojan Malware. Discordia written on C++.
 * **Automatic recovery files**
 * **Three autoload methods** (Registry, Shortcut, Task)
 * **Automatic restart process**
+* **Automatic re-infection PC** (Powershell script)
 
 ## How it Works
 ![](algorithm.png)
