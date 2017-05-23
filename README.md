@@ -9,6 +9,9 @@ Discordia it's Universal Trojan Malware. Discordia written on C++.
 * **Three autoload methods** (Registry, Shortcut, Task)
 * **Automatic restart miner process**
 
+## How it Works
+![](algorithm.png)
+
 ## Purchase
 **Price:** $20/month
 
