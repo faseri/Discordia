@@ -1,5 +1,5 @@
 # Discordia
-Discordia it's trojan for dissemination miners. Discordia written on C++.
+Discordia it's Universal Trojan.Downloader Malware. Discordia written on C++.
 
 ## Features
 * **Hiding miner files**
