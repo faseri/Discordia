@@ -1,5 +1,5 @@
 # Discordia
-Discordia it's Universal Trojan Malware. Discordia written on C++.
+Discordia it's Universal Trojan. Discordia written on C++.
 
 ## Features
 * **Hiding files**
