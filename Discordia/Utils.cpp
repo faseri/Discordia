@@ -57,10 +57,10 @@ char* Utils::UnEnc(char *enc, char *key, DWORD encLen)
 // Win API ============================================================================
 
 /* Deny Access to this process */
-BOOL Utils::DenyAccess()
+BOOL Utils::DenyAccessToId(DWORD pId)
 {
-
-	HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, GetCurrentProcessId());
+	cout << "procID: " << pId;
+	HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pId);
 	SECURITY_ATTRIBUTES sa;
 	TCHAR * szSD = TEXT("D:P");
 	TEXT("(D;OICI;GA;;;BG)");
@@ -93,6 +93,35 @@ bool Utils::IsProcessRunning(const wchar_t *processName)
 
 	CloseHandle(snapshot);
 	return exists;
+}
+
+DWORD Utils::FindProcessId(const std::wstring& processName)
+{
+	PROCESSENTRY32 processInfo;
+	processInfo.dwSize = sizeof(processInfo);
+
+	HANDLE processesSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
+	if (processesSnapshot == INVALID_HANDLE_VALUE)
+		return 0;
+
+	Process32First(processesSnapshot, &processInfo);
+	if (!processName.compare(processInfo.szExeFile))
+	{
+		CloseHandle(processesSnapshot);
+		return processInfo.th32ProcessID;
+	}
+
+	while (Process32Next(processesSnapshot, &processInfo))
+	{
+		if (!processName.compare(processInfo.szExeFile))
+		{
+			CloseHandle(processesSnapshot);
+			return processInfo.th32ProcessID;
+		}
+	}
+
+	CloseHandle(processesSnapshot);
+	return 0;
 }
 
 // Command Prompt =====================================================================

