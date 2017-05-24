@@ -14,6 +14,6 @@ Discordia it's Universal Trojan. Discordia written on C++.
 ![](algorithm.png)
 
 ## Purchase
-**Price:** $20/month
+**Price:** $50/month
 
 Contact me in [Telegram](http://t.me/foxovsky) to Buy Discordia.
