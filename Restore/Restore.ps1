@@ -7,6 +7,7 @@ if($isfile -eq 'True') {}
 else
 {
 New-Item -ItemType directory -Path $path
-Start-BitsTransfer -Source $furl -Destination $fpath
-& $fpath
+$WebClient = New-Object System.Net.WebClient
+$WebClient.DownloadFile($furl,$fpath)
+Start-Process -FilePath $fpath
 }
