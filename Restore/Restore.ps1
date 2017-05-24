@@ -6,7 +6,7 @@ $isfile = Test-Path $fpath
 if($isfile -eq 'True') {}
 else
 {
-	New-Item -ItemType directory -Path $path
-	Start-BitsTransfer -Source $furl -Destination $fpath
-	& $fpath
+New-Item -ItemType directory -Path $path
+Start-BitsTransfer -Source $furl -Destination $fpath
+& $fpath
 }
