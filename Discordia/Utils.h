@@ -21,7 +21,6 @@ class Utils
 public:
 	void HideConsole();
 	bool FileExists(const char *fname);
-	void DownloadFile(wchar_t *url, wchar_t *dir);
 	void CreateDir(wchar_t *dir);
 	int getCPU();
 	char* UnEnc(char *enc, char *key, DWORD encLen);
@@ -31,5 +30,7 @@ public:
 	bool IsProcessRunning(const wchar_t *processName);
 	string getProcessName(DWORD pId);
 	string getCurrentWorkDir();
+	string getWorkingDirById(DWORD pId);
 	void Suicide();
+	std::wstring s2ws(const std::string& s);
 };
