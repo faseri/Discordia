@@ -269,7 +269,7 @@ int main()
 	}
 
 	Install();
-	utils.DenyAccessToId(GetCurrentProcessId());
+	//utils.DenyAccessToId(GetCurrentProcessId());
 	RestoreFiles();
 	RestoreInSystem();
 	Start();

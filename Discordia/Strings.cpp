@@ -6,11 +6,11 @@ using namespace std;
 
 char* Strings::ClientID()
 {
-	return "kljklj5n234k5jn";
+	return "MTn31JMWIT";
 }
 
 char* Strings::Config()
 {
-	return "desktop";
+	return "server";
 }
 
